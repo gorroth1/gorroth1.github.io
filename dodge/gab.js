@@ -13,7 +13,7 @@
   class Load {
     preload() {
       console.log("Loading...");
-      this.load.image() 
+      this.load.image("bg","assets/background.png") 
     }
   create() {
     console.log("Loaded");
