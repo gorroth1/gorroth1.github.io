@@ -12,11 +12,21 @@ var C = {
   },
   "p": {
     "file": "assets/player.png",
-    "width": 46,
-    "height": 64,
-    "frames": 2
+    "width": 32,
+    "height": 32,
+    "frames": 2,
     "startx": 160,
-    "starty": 500
+    "starty": 500,
+    "speed": 5
+  },
+  "d": {
+    "file": "assets/dodge.png",
+    "width": 64,
+    "hright": 64,
+    "frames": 2,
+    "fps": 10,
+    "startx": 160,
+    "starty": 32
   }
 }
 
@@ -36,6 +46,8 @@ var C = {
     preload() {
       console.log("Loading...");
       this.load.image("bg","assets/background.png") 
+      this.load.spritesheet("player",C.p.file,C.p.width,C.p.height,C.p.frames);
+      //this.load.spritesheet("dodge",C.d.file,C.d.width,C.d.height,C.d.frames);
     }
   create() {
     console.log("Loaded");
@@ -46,12 +58,33 @@ var C = {
 class Play {
   create() {
     console.log("Entered Play State");
+    
     this.background = this.add.tileSprite(0,0,C.bg.width,C.bg.height,"bg");
     this.background.autoScroll(0,700);
-    this.player = this.add.sprite(C.bg.xspeed,C.bg.yspeed);
+    
+    this.player = this.add.sprite(C.p.startx,C.p.starty,"player");
     this.player.anchor.set(0.5,0.5);
-    this.player.smoothed = fales;
+    this.player.smoothed = false;
     this.player.scale.set(1);
+    this.player.animations.add("anim");
+    this.player.animations.play("anim",C.p.fps,true);
+/*
+    this.gab = this.add.sprite(C.d.startx,C.d.starty,"dodge");
+    this.gab.anchor.set(0.5,0.5);
+    this.gab.smoothed = false;
+    this.gab.scale.set(1);
+    this.gab.animations.add("anim");
+    this.gab.animations.play("anim",C.d.fps,true);
+*/
+    this.cursors = this.input.keyboard.createCursorKeys();
+  }
+  update(){
+    if (this.cursors.left.isDown) {
+      this.player.x -= C.p.speed;
+    }
+    if (this.cursors.right.isDown) {
+      this.player.x += C.p.speed;
+    }
   }
 }
 
